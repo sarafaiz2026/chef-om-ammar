@@ -9,8 +9,8 @@ API_KEY = "AIzaSyAh3lB83xCAb-RmpX-E1bAybLaviqilEy4"
 
 if API_KEY:
     genai.configure(api_key=API_KEY)
-    # استخدام النموذج السريع والذكي
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # استخدام اسم النموذج المحدث
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
 else:
     model = None
 

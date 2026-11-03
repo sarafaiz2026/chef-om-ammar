@@ -7,12 +7,14 @@ st.set_page_config(page_title="منصة الأدوات الذكية للأعما
 # إعداد مفتاح الـ API الحقيقي
 API_KEY = "AIzaSyAh3lB83xCAb-RmpX-E1bAybLaviqilEy4"
 
-if API_KEY:
-    genai.configure(api_key=API_KEY)
-    # استخدام النموذج القياسي المستقر
+# التهيئة المباشرة
+genai.configure(api_key=API_KEY)
+
+# استخدام الطريقة القياسية المباشرة لإنشاء النموذج
+try:
+    model = genai.GenerativeModel('gemini-1.5-flash')
+except Exception:
     model = genai.GenerativeModel('gemini-pro')
-else:
-    model = None
 
 # القائمة الجانبية للتنقل
 st.sidebar.title("📌 قائمة الأدوات الذكية")
@@ -45,7 +47,7 @@ if tool_choice == "🛍️ مولد أوصاف المنتجات":
             st.error("❌ عذراً، يجب إدخال اسم المنتج ومميزاته أولاً!")
         else:
             with st.spinner("جاري التفكير وتوليد النص بواسطة الذكاء الاصطناعي..."):
-                if model:
+                try:
                     prompt = f"""
                     أنت خبير تسويق إلكتروني احترافي. اكتب لي:
                     1. وصف تسويقي جذاب وجاهز للنشر لمنتج: {product_name}
@@ -55,8 +57,8 @@ if tool_choice == "🛍️ مولد أوصاف المنتجات":
                     """
                     response = model.generate_content(prompt)
                     ai_text = response.text
-                else:
-                    ai_text = "⚠️ تنبيه: يرجى التحقق من إعدادات المفتاح."
+                except Exception as e:
+                    ai_text = f"⚠️ حدث خطأ أثناء الاتصال بالذكاء الاصطناعي: {e}"
 
             st.balloons()
             st.success("✨ تم توليد المحتوى الذكي بنجاح!")
@@ -75,12 +77,12 @@ elif tool_choice == "📄 ملخص التقارير والمستندات":
             st.error("❌ يرجى إدخال نص كافٍ ليتسنى تلخيصه!")
         else:
             with st.spinner("جاري تحليل النص واستخراج النقاط..."):
-                if model:
+                try:
                     prompt = f"قم بتلخيص النص التالي واستخراج أهم النقاط الرئيسية منه بأسلوب تنفيذي واضح:\n\n{input_text}"
                     response = model.generate_content(prompt)
                     summary_text = response.text
-                else:
-                    summary_text = "⚠️ تنبيه: يرجى التحقق من إعدادات المفتاح."
+                except Exception as e:
+                    summary_text = f"⚠️ حدث خطأ أثناء الاتصال بالذكاء الاصطناعي: {e}"
 
             st.snow()
             st.success("✨ تم التلخيص بنجاح!")

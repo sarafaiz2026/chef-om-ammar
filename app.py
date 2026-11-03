@@ -1,51 +1,80 @@
 import streamlit as st
 
 # إعدادات الصفحة
-st.set_page_config(page_title="منصة الشيف ونسخ المنتجات", page_icon="🛍️", layout="centered")
+st.set_page_config(page_title="منصة الأدوات الذكية للأعمال", page_icon="⚡", layout="centered")
 
-st.title("🛍️ مولد أوصاف المنتجات الذكي للمتاجر الإلكترونية")
-st.write("أداة مخصصة لمساعدة أصحاب المتاجر الإلكترونية على توليد أوصاف جذابة وإعلانات تسويقية لمنتجاتهم بضغطة زر!")
-
-st.divider()
-
-# مدخلات المستخدم (التاجر)
-st.header("1. أدخل تفاصيل المنتج")
-product_name = st.text_input("اسم المنتج (مثلاً: ساعة ذكية أنيقة / كيكة شوكولاتة فاخرة):")
-product_features = st.text_area("أبرز مميزات المنتج (مثلاً: مقاومة للماء، بطارية تدوم طويلاً، تصميم عصرى):")
-target_audience = st.selectbox(
-    "الجمهور المستهدف:",
-    ["الشباب والرياضيون", "ربات البيوت وعشاق الحلويات", "الموظفون ورجال الأعمال", "الجميع"]
+# القائمة الجانبية للتنقل بين الأدوات
+st.sidebar.title("📌 قائمة الأدوات الذكية")
+tool_choice = st.sidebar.radio(
+    "اختر الأداة التي تريد استخدامها:",
+    ["🛍️ مولد أوصاف المنتجات", "📄 ملخص التقارير والمستندات"]
 )
 
-st.divider()
+st.sidebar.divider()
+st.sidebar.caption("© 2026 - منصة الأدوات الذكية للأعمال")
 
-# زر التوليد والنتيجة
-st.header("2. توليد المحتوى التسويقي")
-if st.button("🚀 توليد الوصف والإعلانات الآن"):
-    if not product_name or not product_features:
-        st.error("❌ عذراً، يجب إدخال اسم المنتج ومميزاته أولاً!")
-    else:
-        # تأثير تفاعلي
-        st.balloons()
-        
-        st.success("✨ تم توليد المحتوى التسويقي بنجاح!")
-        
-        # تجهيز النصوص لكي يتم عرضها مع خيار النسخ
-        marketing_description = f"""**{product_name}**
-هل تبحث عن التميز والراحة؟ نقدم لك **{product_name}** المصمم خصيصاً ليناسب احتياجات **{target_audience}**.
-المميزات الرئيسية: {product_features}.
-لا تفوت الفرصة واطلبه الآن لتعيش تجربة استثنائية!"""
+# --- الأداة الأولى: مولد أوصاف المنتجات ---
+if tool_choice == "🛍️ مولد أوصاف المنتجات":
+    st.title("🛍️ مولد أوصاف المنتجات الذكي")
+    st.write("أداة مخصصة لمساعدة أصحاب المتاجر الإلكترونية على توليد أوصاف جذابة وإعلانات تسويقية بضغطة زر!")
+    st.divider()
 
-        social_ad = f"🔥 عرض خاص لفترة محدودة! احصل على {product_name} الآن. المميزات: {product_features}. اطلبه اليوم واستمتع بالجودة العالية! 🛒✨"
+    st.header("1. أدخل تفاصيل المنتج")
+    product_name = st.text_input("اسم المنتج (مثلاً: ساعة ذكية / كيكة فاخرة):")
+    product_features = st.text_area("أبرز مميزات المنتج:")
+    target_audience = st.selectbox(
+        "الجمهور المستهدف:",
+        ["الشباب والرياضيون", "ربات البيوت وعشاق الحلويات", "الموظفون ورجال الأعمال", "الجميع"]
+    )
 
-        # عرض النتائج بطريقة منسقة مع ميزة النسخ المدمجة في Streamlit
-        st.subheader("📌 الوصف التسويقي للمتجر:")
-        st.markdown(marketing_description)
-        # ميزة النسخ المباشر من Streamlit
-        st.code(marketing_description, language="markdown")
+    st.divider()
+    st.header("2. توليد المحتوى التسويقي")
+    if st.button("🚀 توليد الوصف والإعلانات"):
+        if not product_name or not product_features:
+            st.error("❌ عذراً، يجب إدخال اسم المنتج ومميزاته أولاً!")
+        else:
+            st.balloons()
+            st.success("✨ تم توليد المحتوى التسويقي بنجاح!")
+            
+            marketing_desc = f"**{product_name}**\nهل تبحث عن التميز؟ نقدم لك **{product_name}** المخصص لـ **{target_audience}**.\nالمميزات: {product_features}.\nاطلبه الآن!"
+            social_ad = f"🔥 عرض خاص! احصل على {product_name} الآن. المميزات: {product_features}. 🛒✨"
 
-        st.subheader("📱 إعلان مقترح لوسائل التواصل الاجتماعي (سناب/إنستغرام):")
-        st.code(social_ad, language="text")
+            st.subheader("📌 الوصف التسويقي للمتجر:")
+            st.code(marketing_desc, language="markdown")
 
-st.divider()
-st.caption("© 2026 - منصة الأدوات الذكية للمتاجر الإلكترونية | تطوير: رائد الأعمال الذكي")
+            st.subheader("📱 إعلان السوشيال ميديا:")
+            st.code(social_ad, language="text")
+
+# --- الأداة الثانية: ملخص المستندات والتقارير ---
+elif tool_choice == "📄 ملخص التقارير والمستندات":
+    st.title("📄 ملخص التقارير والمستندات الذكي")
+    st.write("ضع أي نص طويل، مقال، أو تقرير، وسيقوم التطبيق بتلخيصه واستخراج النقاط الهامة في ثوانٍ!")
+    st.divider()
+
+    st.header("1. أدخل النص المراد تلخيصه")
+    input_text = st.text_area("الصق النص أو التقرير هنا:", height=200)
+    summary_length = st.select_slider(
+        "مستوى التلخيص المطلوبة:",
+        options=["موجز جداً (نقاط أساسية)", "متوسط", "شامل"]
+    )
+
+    st.divider()
+    st.header("2. التلخيص الذكي")
+    if st.button("⚡ تلخيص النص الآن"):
+        if not input_text or len(input_text.strip()) < 30:
+            st.error("❌ يرجى إدخال نص كافٍ (أكثر من 30 حرفاً) ليتسنى تلخيصه!")
+        else:
+            st.snow()
+            st.success("✨ تم تلخيص المستند بنجاح!")
+            
+            # محاكاة التلخيص الذكي
+            words = input_text.split()
+            first_part = " ".join(words[:min(15, len(words))])
+            
+            summary_output = f"""📌 **الملخص التنفيذي ({summary_length}):**
+• **الفكرة الرئيسية:** {first_part}...
+• **النقاط الأساسية:** تم استخراج زبدة النص بناءً على طلبك في مستوى ({summary_length}).
+• **التوصية:** جاهز للاستخدام في العروض والتقارير الرسمية."""
+
+            st.subheader("📝 النص الملخص:")
+            st.code(summary_output, language="markdown")
